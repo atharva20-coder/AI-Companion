@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { BotAvatar } from "@/components/bot-avatar";
 import { UserAvatar } from "@/components/user-avatar";
 import { Button } from "@/components/ui/button";
-import { Copy } from "lucide-react";
+import { Copy, Speech } from "lucide-react";
 
 export interface ChatMessageProps {
   role: "system" | "user";
@@ -36,6 +36,27 @@ export const ChatMessage = ({
     });
   };
 
+  const onSpeech = () => {
+    if (!content) {
+      return;
+    }
+
+    // Create a new SpeechSynthesisUtterance instance
+    const utterance = new SpeechSynthesisUtterance(content);
+
+    // Optionally, you can set attributes like rate, pitch, volume, etc.
+    // utterance.rate = 1;
+    // utterance.pitch = 100;
+    // utterance.volume = 1;
+
+    // Use the SpeechSynthesis instance to speak the utterance
+    window.speechSynthesis.speak(utterance);
+
+    toast({
+      description: "Reading started, This feature is under BETA phase",
+    });
+  };
+
   return (
     <div
       className={cn(
@@ -60,6 +81,16 @@ export const ChatMessage = ({
           variant="ghost"
         >
           <Copy className="w-4 h-4" />
+        </Button>
+      )}
+      {role !== "user" && !isLoading && (
+        <Button
+          onClick={onSpeech}
+          className="transition opacity-0 group-hover:opacity-100"
+          size="icon"
+          variant="ghost"
+        >
+          <Speech className="w-4 h-4" />
         </Button>
       )}
     </div>
