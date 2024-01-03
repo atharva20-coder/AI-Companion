@@ -29,7 +29,7 @@ export async function POST(
     const companion = await prismadb.companion.update({
       where: {
         id: params.chatId,
-        //userId: user.id, ENABLE THIS IF YOU WANT TO ALLOW ONLY USER WHO CREATED THE COMPANION
+        userId: user.id, //ENABLE THIS IF YOU WANT TO ALLOW ONLY USER WHO CREATED THE COMPANION
       },
       data: {
         messages: {
